@@ -142,7 +142,6 @@ func (c *Client) SelectLogs(sqlName string, formats []any, st int64, et int64, o
 		Query:     sql,
 		StartTime: st,
 		EndTime:   et,
-		Limit:     int(limit),
 	}
 
 	resp, err := c.instance.SearchLogs(request)

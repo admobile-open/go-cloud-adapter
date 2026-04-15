@@ -44,11 +44,11 @@ func (c *Client) PutObjectFromFile(bucketName, objectName, filePath string, meta
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.Acl = oss.ObjectACLType(_acl)
+			request.Acl = storage.ToAliyunACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = oss.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
 	}
 
@@ -66,11 +66,11 @@ func (c *Client) PutObjectFromContent(bucketName, objectName, content string, me
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.Acl = oss.ObjectACLType(_acl)
+			request.Acl = storage.ToAliyunACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = oss.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
 	}
 
@@ -89,11 +89,11 @@ func (c *Client) PutObjectFromBytes(bucketName, objectName string, content []byt
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.Acl = oss.ObjectACLType(_acl)
+			request.Acl = storage.ToAliyunACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = oss.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
 	}
 
@@ -112,11 +112,11 @@ func (c *Client) PutObjectFromReader(bucketName, objectName string, reader io.Re
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.Acl = oss.ObjectACLType(_acl)
+			request.Acl = storage.ToAliyunACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = oss.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
 	}
 
@@ -249,6 +249,16 @@ func (c *Client) AppendObjectFromFile(bucketName, objectName string, filePath st
 		Body:         file,
 	}
 
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.Acl = storage.ToAliyunACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
+		}
+	}
+
 	resp, err := c.instance.AppendObject(context.TODO(), request)
 	if err != nil {
 		return 0, err
@@ -276,6 +286,16 @@ func (c *Client) AppendObjectFromContent(bucketName, objectName string, content 
 		Position:     oss.Ptr(position),
 		Metadata:     meta,
 		TrafficLimit: traffic,
+	}
+
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.Acl = storage.ToAliyunACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
+		}
 	}
 
 	request.Body = strings.NewReader(content)
@@ -309,6 +329,16 @@ func (c *Client) AppendObjectFromBytes(bucketName, objectName string, content []
 		TrafficLimit: traffic,
 	}
 
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.Acl = storage.ToAliyunACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
+		}
+	}
+
 	request.Body = bytes.NewReader(content)
 	resp, err := c.instance.AppendObject(context.TODO(), request)
 	if err != nil {
@@ -339,6 +369,16 @@ func (c *Client) AppendObjectFromReader(bucketName, objectName string, reader io
 		TrafficLimit: traffic,
 	}
 
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.Acl = storage.ToAliyunACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
+		}
+	}
+
 	request.Body = reader
 	resp, err := c.instance.AppendObject(context.TODO(), request)
 	if err != nil {
@@ -367,7 +407,7 @@ func (c *Client) UploadFileMultipart(bucketName, objectName, filePath string, pa
 
 	if extra != nil {
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			initReq.StorageClass = oss.StorageClassType(_storageClass)
+			initReq.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
 	}
 
@@ -464,13 +504,12 @@ func (c *Client) UploadFileBreakpoint(bucketName, objectName, filePath string, p
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.Acl = oss.ObjectACLType(_acl)
+			request.Acl = storage.ToAliyunACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = oss.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
-
 	}
 
 	_, err := uploader.UploadFile(context.TODO(), request, filePath)
@@ -732,11 +771,11 @@ func (c *Client) CopyObject(sourceBucketName, sourceObject, destBucketName, dest
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.Acl = oss.ObjectACLType(_acl)
+			request.Acl = storage.ToAliyunACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = oss.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
 		}
 	}
 
@@ -763,6 +802,16 @@ func (c *Client) MkIfNxObject(bucketName, objectName string, meta map[string]str
 	}
 	request.Headers = map[string]string{
 		"x-oss-if-none-match": "*",
+	}
+
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.Acl = storage.ToAliyunACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
+		}
 	}
 
 	_, err = c.instance.PutObject(context.TODO(), request)
@@ -796,6 +845,16 @@ func (c *Client) MkIfNxAppendableObject(bucketName, objectName string, meta map[
 	}
 	request.Headers = map[string]string{
 		"x-oss-if-none-match": "*",
+	}
+
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.Acl = storage.ToAliyunACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToAliyunStorageClass(_storageClass)
+		}
 	}
 
 	_, err = c.instance.AppendObject(context.TODO(), request)

@@ -56,11 +56,11 @@ func (c *Client) PutObjectFromFile(bucketName, objectName, filePath string, meta
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.ACL = enum.ACLType(_acl)
+			request.ACL = storage.ToVolcACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = enum.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 	}
 	_, err = c.instance.PutObjectV2(context.Background(), request)
@@ -80,11 +80,11 @@ func (c *Client) PutObjectFromContent(bucketName, objectName, content string, me
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.ACL = enum.ACLType(_acl)
+			request.ACL = storage.ToVolcACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = enum.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 	}
 
@@ -105,11 +105,11 @@ func (c *Client) PutObjectFromBytes(bucketName, objectName string, content []byt
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.ACL = enum.ACLType(_acl)
+			request.ACL = storage.ToVolcACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = enum.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 	}
 
@@ -130,11 +130,11 @@ func (c *Client) PutObjectFromReader(bucketName, objectName string, reader io.Re
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.ACL = enum.ACLType(_acl)
+			request.ACL = storage.ToVolcACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = enum.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 	}
 
@@ -271,6 +271,14 @@ func (c *Client) AppendObjectFromFile(bucketName, objectName string, filePath st
 	}
 
 	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.ACL = storage.ToVolcACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
+		}
+
 		if _hashCrc64Ecma, ok := extra["hashCrc64Ecma"].(uint64); ok {
 			request.PreHashCrc64ecma = _hashCrc64Ecma
 		}
@@ -311,6 +319,14 @@ func (c *Client) AppendObjectFromContent(bucketName, objectName string, content 
 	}
 
 	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.ACL = storage.ToVolcACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
+		}
+
 		if _hashCrc64Ecma, ok := extra["hashCrc64Ecma"].(uint64); ok {
 			request.PreHashCrc64ecma = _hashCrc64Ecma
 		}
@@ -351,6 +367,14 @@ func (c *Client) AppendObjectFromBytes(bucketName, objectName string, content []
 	}
 
 	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.ACL = storage.ToVolcACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
+		}
+
 		if _hashCrc64Ecma, ok := extra["hashCrc64Ecma"].(uint64); ok {
 			request.PreHashCrc64ecma = _hashCrc64Ecma
 		}
@@ -391,6 +415,14 @@ func (c *Client) AppendObjectFromReader(bucketName, objectName string, reader io
 	}
 
 	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.ACL = storage.ToVolcACL(_acl)
+		}
+
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
+		}
+
 		if _hashCrc64Ecma, ok := extra["hashCrc64Ecma"].(uint64); ok {
 			request.PreHashCrc64ecma = _hashCrc64Ecma
 		}
@@ -427,10 +459,10 @@ func (c *Client) UploadFileMultipart(bucketName, objectName, filePath string, pa
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			createReq.ACL = enum.ACLType(_acl)
+			createReq.ACL = storage.ToVolcACL(_acl)
 		}
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			createReq.StorageClass = enum.StorageClassType(_storageClass)
+			createReq.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 	}
 
@@ -509,11 +541,11 @@ func (c *Client) UploadFileBreakpoint(bucketName, objectName, filePath string, p
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.ACL = enum.ACLType(_acl)
+			request.ACL = storage.ToVolcACL(_acl)
 		}
 
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = enum.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 
 		if checkpointFile, ok := extra["checkpointFile"].(string); ok {
@@ -778,10 +810,10 @@ func (c *Client) CopyObject(sourceBucketName, sourceObject, destBucketName, dest
 
 	if extra != nil {
 		if _acl, ok := extra["acl"].(string); ok {
-			request.ACL = enum.ACLType(_acl)
+			request.ACL = storage.ToVolcACL(_acl)
 		}
 		if _storageClass, ok := extra["storageClass"].(string); ok {
-			request.StorageClass = enum.StorageClassType(_storageClass)
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
 		}
 	}
 
@@ -813,6 +845,15 @@ func (c *Client) MkIfNxObject(bucketName, objectName string, meta map[string]str
 				"If-None-Match": "*",
 			},
 		},
+	}
+
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.ACL = storage.ToVolcACL(_acl)
+		}
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
+		}
 	}
 
 	_, err = c.instance.PutObjectV2(context.Background(), request)
@@ -848,6 +889,15 @@ func (c *Client) MkIfNxAppendableObject(bucketName, objectName string, meta map[
 				"If-None-Match": "*",
 			},
 		},
+	}
+
+	if extra != nil {
+		if _acl, ok := extra["acl"].(string); ok {
+			request.ACL = storage.ToVolcACL(_acl)
+		}
+		if _storageClass, ok := extra["storageClass"].(string); ok {
+			request.StorageClass = storage.ToVolcStorageClass(_storageClass)
+		}
 	}
 
 	_, err = c.instance.AppendObjectV2(context.Background(), request)
